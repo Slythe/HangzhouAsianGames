@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -49,7 +50,14 @@ namespace HangzhouAsianGames
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+
+            // Force the use of HTTPS and WWW sub domain
+            app.UseRewriter(new RewriteOptions()
+                .AddRedirectToWwwPermanent()
+                .AddRedirectToHttpsPermanent()
+            );
+
+            
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
